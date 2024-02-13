@@ -2,36 +2,34 @@
 
 {% block body%}
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            {{message}}
-        {% endfor %}
-    {% endif %}
-{% endwith %}
 
-<form action="/new" method="post">
+<div class="row">
+    <div class="col-md-5">
+        {% include('partials/_message.html') %}
 
-    <input type="text" name="fullname" placeholder="Write your name">
-    <input type="text" name="email" placeholder="Write your email">
-    <input type="text" name="phone" placeholder="Write your phone">
-
-    <button>Save</button>
-</form>
-
-<div>
-    {% for contact in contacts %}
-    <div>
-        <h5>{{contact.fullname}}</h5>
-        <div>
-            <a href="{{url_for('contacts.update_contacts', id=contact.id)}}">Update</a>
-            <a href="{{url_for('contacts.delete_contacts', id=contact.id)}}">Delete</a>
-        </div>
-        <p>{{contact.phone}}</p>
-        <p>{{contact.email}}</p>
-
+        {% include('partials/_contactForm.html') %}
     </div>
-    {% endfor %}
+    <div class="col-md-7">
+        {% for contact in contacts %}
+
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title">{{contact.fullname}}</h5>
+                <p class="card-text m-0 p-0">{{contact.phone}}</p>
+                <p class="card-text p-0"><small class="text-muted">{{contact.email}}</small></p>
+
+                <div>
+                    <a href="{{url_for('contacts.update_contacts', id=contact.id)}}"
+                        class="btn btn-outline-secondary btn-sm">Update</a>
+                    <a href="{{url_for('contacts.delete_contacts', id=contact.id)}}"
+                        class="btn btn-outline-danger btn-sm">Delete</a>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 
 {% endblock %}
